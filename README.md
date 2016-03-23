@@ -1,6 +1,6 @@
 How to set up this project on Android Studio:
 
-1. clone the repository using a git client program (like Atlassian SourceTree) to projects folder.
+1. clone the repository using a git client program (https://git-scm.com/downloads) to projects folder.
 2. Open the project with Android Studio, a popup should appear with an option "add root," press that.
 3. A couple buttons should show up on the top bar labeled VCS with a down arrow and up arrow respectively.
 
