@@ -5,8 +5,6 @@ import android.util.Log;
 // this is the data structure that will manage all information about the game
 // the hex cells, where the mouse is at, moving the mouse, etc
 
-// TODO implement mouse movement
-
 public class HexGrid {
     static final int cellWidth = 9;
     static final int cellHeight = 9;
@@ -129,6 +127,8 @@ public class HexGrid {
             }
         }
 
+        // TODO
+
         // randomly place mouse in/next to center
 
         // randomly place walls on hex grid
@@ -151,6 +151,8 @@ public class HexGrid {
 
     // if this returns false, the mouse cannot be moved, player wins
     public boolean moveMouse () {
+
+        // TODO
 
         // try to find shortest path out of grid
 
