@@ -121,11 +121,17 @@ public class HexGrid {
 
     // set up a new game
     public void initialize() {
-        // set up game
+
+        //reset hexgrid
+        for (int x = 0; x < cellWidth; x++) {
+            for (int y = 0; y < cellHeight; y++) {
+                cells[x][y].contains = Cell.EMPTY;
+            }
+        }
 
         // randomly place mouse in/next to center
 
-        // randomly place wall on board
+        // randomly place walls on hex grid
 
         // reset moveCounter
         moveCounter = 0;
