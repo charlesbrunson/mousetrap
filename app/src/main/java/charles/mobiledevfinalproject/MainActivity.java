@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //this is just for testing, later it will be initialized from the layout
         v = new GameView(getApplicationContext(), null);
 
     }
