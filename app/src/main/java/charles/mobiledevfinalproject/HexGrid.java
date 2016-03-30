@@ -6,9 +6,9 @@ import android.util.Log;
 // the hex cells, where the mouse is at, moving the mouse, etc
 
 public class HexGrid {
-    static final int cellWidth = 9;
-    static final int cellHeight = 9;
-    static final int startingWalls = 7;
+    public static final int cellWidth = 9;
+    public static final int cellHeight = 9;
+    public static final int startingWalls = 7;
 
     private class Cell {
         static final int EMPTY = 0;
