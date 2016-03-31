@@ -69,8 +69,8 @@ public class HexGrid {
     private int moveCounter = 0;
 
     // the cell the mouse is currently in
-    // if this is null then the mouse has
-    // exited the grid and the player has lost
+    // if this cell has a distFromEdge of 0 then
+    // the mouse has escaped and the player has lost
     private Cell mouseCell = null;
 
     // initialize hex grid
@@ -161,7 +161,7 @@ public class HexGrid {
         int centerX = cellWidth / 2;
         int centerY = cellHeight / 2;
 
-        Cell mouseCell = null;
+        mouseCell = null;
         switch (r.nextInt(7)) {
             case 0: mouseCell = cells[centerX][centerY]; break;
             case 1: mouseCell = cells[centerX][centerY].E; break;
