@@ -47,8 +47,8 @@ public class GameView extends View {
             x -= (cellY % 2 == 0 ? 0 : cellRadius);
             int cellX = (int)(x / cellSize) + 1;
 
-            if (cellX >= 0 && cellX < HexGrid.cellWidth &&
-                    cellY >= 0 && cellY < HexGrid.cellHeight) {
+            if (x >= 0 && cellX > 0 && cellX < HexGrid.cellWidth &&
+                    cellY > 0 && cellY < HexGrid.cellHeight) {
 
 
                 if (grid.placeWall(cellX, cellY)) {
@@ -70,6 +70,7 @@ public class GameView extends View {
                     }
 
                     eventHandled = true;
+                    //redraw view
                     invalidate();
                 }
             }
@@ -82,8 +83,8 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-
-        cellSize = (Math.min(getWidth(), getHeight()) * 2 / 19);
+        cellSize = Math.min(getWidth(), getHeight()) * 2 /
+                (Math.max(HexGrid.cellWidth - 2, HexGrid.cellHeight - 2) * 2 + 1);
         cellRadius = cellSize / 2;
         cellDrawRadius = cellRadius * 0.9f;
 
@@ -105,7 +106,10 @@ public class GameView extends View {
                 }
 
                 //draw each cell
-                canvas.drawCircle((x - 1) * cellSize + cellRadius + xOffset, (y - 1) * cellSize + cellRadius, cellDrawRadius, p);
+                canvas.drawCircle(
+                        (x - 1) * cellSize + cellRadius + xOffset,
+                        (y - 1) * cellSize + cellRadius,
+                        cellDrawRadius, p);
 
             }
         }
