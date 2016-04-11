@@ -13,15 +13,14 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    GameView v;
+    GameView game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //this is just for testing, later it will be initialized from the layout
-        v = new GameView(getApplicationContext(), null);
+        game = (GameView)this.findViewById(R.id.gameView);
 
     }
 }

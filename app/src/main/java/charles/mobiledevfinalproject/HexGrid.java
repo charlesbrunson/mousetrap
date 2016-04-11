@@ -14,7 +14,7 @@ public class HexGrid {
     // grid is actually 9x9 with cells on the edges for mouse to escape to
     public static final int cellWidth = 11;
     public static final int cellHeight = 11;
-    public static final int startingWalls = 7;
+    public static final int startingWalls = 11;
 
     public class Cell {
         private static final int EMPTY = 0;
@@ -42,6 +42,10 @@ public class HexGrid {
         }
         public boolean isWall() {
             return contains == WALL;
+        }
+        public boolean isEdge() {
+            return x == 0 || x == cellWidth - 1 ||
+                    y == 0 || y == cellHeight - 1;
         }
         public boolean isMouse() {
             return contains == MOUSE;
@@ -161,7 +165,6 @@ public class HexGrid {
         int centerX = cellWidth / 2;
         int centerY = cellHeight / 2;
 
-        Cell mouseCell = null;
         switch (r.nextInt(7)) {
             case 0: mouseCell = cells[centerX][centerY]; break;
             case 1: mouseCell = cells[centerX][centerY].E; break;
@@ -171,8 +174,7 @@ public class HexGrid {
             case 5: mouseCell = cells[centerX][centerY].SW; break;
             case 6: mouseCell = cells[centerX][centerY].W; break;
         }
-        if (mouseCell != null)
-            mouseCell.contains = Cell.MOUSE;
+        mouseCell.contains = Cell.MOUSE;
 
         // randomly place walls on hex grid
         int count = 0;
@@ -210,7 +212,7 @@ public class HexGrid {
         return false;
     }
 
-    // if this returns false, the mouse cannot be moved, player wins
+
     public Cell moveMouse () {
 
         // TODO
@@ -255,10 +257,13 @@ public class HexGrid {
             mouseCell = moveOptions.get(r.nextInt(moveOptions.size()));
             mouseCell.contains = Cell.MOUSE;
         }
-        else if (moveOptions.size() == 0) {
+        else if (moveOptions.size() == 1) {
             mouseCell.contains = Cell.EMPTY;
             mouseCell = moveOptions.get(0);
             mouseCell.contains = Cell.MOUSE;
+        }
+        else {
+            //mouse cannot move
         }
 
         // return mouse cell
@@ -346,6 +351,7 @@ public class HexGrid {
         }
 
         //testing
+        /*
         for (int y = 0; y < cellHeight; y++) {
             StringBuilder debug = new StringBuilder();
 
@@ -362,5 +368,6 @@ public class HexGrid {
             }
             Log.d("HEXGRID", debug.toString());
         }
+        */
     }
 }
