@@ -113,7 +113,7 @@ public class HexGrid {
                 }
 
                 // links are slightly different based on the row they're on
-                if (y % 2 == 0 ) {
+                if (y % 2 == 1 ) {
                     if (y > 0) {
                         i.NE = cells[x][y - 1];
                         if (x > 0) {
@@ -262,9 +262,9 @@ public class HexGrid {
             mouseCell = moveOptions.get(0);
             mouseCell.contains = Cell.MOUSE;
         }
-        else {
-            //mouse cannot move
-        }
+       // else {
+       // mouse cannot move
+       // }
 
         // return mouse cell
         // if mouse cell's distance is zero then the mouse has won

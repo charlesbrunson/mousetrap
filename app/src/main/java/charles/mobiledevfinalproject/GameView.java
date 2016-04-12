@@ -44,7 +44,7 @@ public class GameView extends View {
 
             int cellY = (int)(y / cellSize) + 1;
 
-            x -= (cellY % 2 == 0 ? 0 : cellRadius);
+            x -= (cellY % 2 == 1 ? 0 : cellRadius);
             int cellX = (int)(x / cellSize) + 1;
 
             if (x >= 0 && cellX > 0 && cellX < HexGrid.cellWidth &&
@@ -91,7 +91,7 @@ public class GameView extends View {
         for (int y = 1; y < HexGrid.cellHeight - 1; y++) {
             for (int x = 1; x < HexGrid.cellWidth - 1; x++) {
 
-                float xOffset = (y % 2 == 0 ? 0 : cellRadius);
+                float xOffset = (y % 2 == 1 ? 0 : cellRadius);
 
                 HexGrid.Cell c = grid.getCell(x, y);
 
