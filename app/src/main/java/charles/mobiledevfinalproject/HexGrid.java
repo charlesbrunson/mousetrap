@@ -308,6 +308,8 @@ public class HexGrid {
 
                     fringe.add(i);
 
+                } else {
+                    i.distFromEdge = Integer.MAX_VALUE;
                 }
             }
         }
