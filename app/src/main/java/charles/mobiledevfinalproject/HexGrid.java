@@ -14,7 +14,7 @@ public class HexGrid {
     // grid is actually 9x9 with cells on the edges for mouse to escape to
     public static final int cellWidth = 11;
     public static final int cellHeight = 11;
-    public static final int startingWalls = 11;
+    public static final int startingWalls = 9;
 
     public class Cell {
         private static final int EMPTY = 0;
@@ -33,7 +33,6 @@ public class HexGrid {
         // contents of this cell
         int contains = EMPTY;
 
-        // -1 means cell is disconnected from edge
         int distFromEdge = -1;
 
         //getters
@@ -159,8 +158,6 @@ public class HexGrid {
 
         Random r = new Random();
 
-        // TODO
-
         //randomize mouse placement near center
         int centerX = cellWidth / 2;
         int centerY = cellHeight / 2;
@@ -214,8 +211,6 @@ public class HexGrid {
 
 
     public Cell moveMouse () {
-
-        // TODO
 
         if (mouseCell == null)
             return null;
@@ -351,25 +346,5 @@ public class HexGrid {
             //all neighbors evaluated, add to visited, remove from fringe
             visited.push(fringe.remove());
         }
-
-        //testing
-        /*
-        for (int y = 0; y < cellHeight; y++) {
-            StringBuilder debug = new StringBuilder();
-
-            if (y % 2 == 1)
-                debug.append(" ");
-
-            for (int x = 0; x < cellWidth; x++) {
-                if (getCell(x,y).isEmpty())
-                    debug.append(getCell(x,y).distFromEdge + " ");
-                else if (getCell(x,y).isWall())
-                    debug.append("W ");
-                else if (getCell(x,y).isMouse())
-                    debug.append("M ");
-            }
-            Log.d("HEXGRID", debug.toString());
-        }
-        */
     }
 }

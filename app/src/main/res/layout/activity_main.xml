@@ -11,7 +11,9 @@
 
     <charles.mobiledevfinalproject.GameView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/gameView"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="false"
+        android:layout_weight="1" />
 </RelativeLayout>
