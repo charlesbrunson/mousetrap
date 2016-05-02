@@ -1,7 +1,6 @@
 package charles.mobiledevfinalproject;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -17,19 +16,23 @@ import android.widget.Toast;
 
 public class GameView extends View implements Animator.AnimatorListener, ValueAnimator.AnimatorUpdateListener {
 
+    private class Vector {
+        float x;
+        float y;
+    }
+
     private HexGrid grid;
     private Paint p;
 
     private boolean touchable = true;
 
     //animation
-    private ValueAnimator anim;
-    private AnimatorSet animator;
+    private ValueAnimator mouseAnim;
     private float mouseAlphaFraction = 1.f;
 
     private Vector mouseRealPos;
     private Vector mouseInterpolatedPos;
-    private Vector mouseReadOldPos;
+    private Vector mouseRealOldPos;
 
     //cell references
     private HexGrid.Cell oldMousePos;
@@ -47,13 +50,11 @@ public class GameView extends View implements Animator.AnimatorListener, ValueAn
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setStyle(Paint.Style.FILL);
 
-        anim = ValueAnimator.ofFloat(0f, 1f);
-        anim.setDuration(333);
-        anim.addUpdateListener(this);
-
-        animator = new AnimatorSet();
-        animator.play(anim);
-        animator.addListener(this);
+        mouseAnim = ValueAnimator.ofFloat(0f, 1f);
+        mouseAnim.setDuration(250);
+        mouseAnim.setStartDelay(50);
+        mouseAnim.addUpdateListener(this);
+        mouseAnim.addListener(this);
     }
 
     public boolean onTouchEvent(MotionEvent event) {
@@ -82,7 +83,7 @@ public class GameView extends View implements Animator.AnimatorListener, ValueAn
                     newMousePos = grid.moveMouse();
 
                     //start mouse animation
-                    animator.start();
+                    mouseAnim.start();
 
                     eventHandled = true;
                 }
@@ -136,20 +137,15 @@ public class GameView extends View implements Animator.AnimatorListener, ValueAn
 
 
         mouseRealPos = getRealPos(grid.getMouseCell().getX(), grid.getMouseCell().getY());
-        mouseReadOldPos = mouseRealPos;
-        mouseInterpolatedPos = mouseReadOldPos;
+        mouseRealOldPos = mouseRealPos;
+        mouseInterpolatedPos = mouseRealOldPos;
 
         //redraw view
         invalidate();
 
     }
 
-    private class Vector {
-        float x;
-        float y;
-    }
-
-    //get position of cell center position on screen
+    //get position of a cell's center on this view
     protected Vector getRealPos(int cellX, int cellY) {
 
         float xOffset = (cellY % 2 == 1 ? 0 : cellRadius);
@@ -160,6 +156,7 @@ public class GameView extends View implements Animator.AnimatorListener, ValueAn
         return v;
     }
 
+    //reset game and animation
     private void reset() {
 
         //reset grid
@@ -167,23 +164,22 @@ public class GameView extends View implements Animator.AnimatorListener, ValueAn
 
         //reset animation values
         mouseAlphaFraction = 1.f;
-        mouseReadOldPos = getRealPos(grid.getMouseCell().getX(), grid.getMouseCell().getY());
-        mouseRealPos = mouseReadOldPos;
-        mouseInterpolatedPos = mouseReadOldPos;
+        mouseRealOldPos = getRealPos(grid.getMouseCell().getX(), grid.getMouseCell().getY());
+        mouseRealPos = mouseRealOldPos;
+        mouseInterpolatedPos = mouseRealOldPos;
 
     }
 
-
-    //value animation listener methods
+    //update animation listener methods
     @Override
     public void onAnimationUpdate(ValueAnimator animation) {
 
-        if (animation == anim) {
+        if (animation == mouseAnim) {
 
             float f = animation.getAnimatedFraction();
 
-            mouseInterpolatedPos.x = mouseReadOldPos.x + f * (mouseRealPos.x - mouseReadOldPos.x);
-            mouseInterpolatedPos.y = mouseReadOldPos.y + f * (mouseRealPos.y - mouseReadOldPos.y);
+            mouseInterpolatedPos.x = mouseRealOldPos.x + f * (mouseRealPos.x - mouseRealOldPos.x);
+            mouseInterpolatedPos.y = mouseRealOldPos.y + f * (mouseRealPos.y - mouseRealOldPos.y);
 
             if (newMousePos.isEdge()) {
                 mouseAlphaFraction = 1.f - f;
@@ -197,12 +193,12 @@ public class GameView extends View implements Animator.AnimatorListener, ValueAn
 
     }
 
-    //animationset listener methods
+    //animation listener methods
     @Override
     public void onAnimationStart(Animator animation) {
 
         mouseAlphaFraction = 1.f;
-        mouseReadOldPos = mouseRealPos;
+        mouseRealOldPos = mouseRealPos;
         mouseRealPos = getRealPos(grid.getMouseCell().getX(), grid.getMouseCell().getY());
 
         //stop user input until animation finishes
@@ -211,7 +207,8 @@ public class GameView extends View implements Animator.AnimatorListener, ValueAn
 
     @Override
     public void onAnimationEnd(Animator animation) {
-        //review game state, re-enable input
+
+        //check if the player has won or lost
         if (oldMousePos == newMousePos) {
 
             //mouse wasn't able to move, player won
